@@ -1,0 +1,44 @@
+1. BUILT ON tcp/IP
+
+--------------- HTTP METHODS -----------------
+
+GET, POST , PUT, DELETE, PATCH, HEAD,
+
+1. GET -> no msg body, used to get info from server,
+       -> 2 types of params :
+            a. query params : written in url using : ?gender=m
+            b. path params : written in url using unique key/ primary key / identifier : /resource-name/4
+             eg /rollno/4
+
+2. POST -> has msg body, used to create new resource at server
+        -> may have path params :
+               eg inserting new student in college with id 5
+        -> data sent in JSON or XML or www-urlencoded format
+
+3. PUT -> update existing resource
+       -> has msg body
+       -> no query params, but has path params for the id of resource to be updated
+       -> data sent in JSON or XML or www-urlencoded format
+
+4. PATCH -> same as put
+         -> but in put you send all the data of the resource which doesnt have a change but in patch you only send data which has changes
+         -> eg in student data only phone and roll is to be change then put will need you to send even name, gender and other details which have no changes
+         -> but patch will ask only for changes i.e. just send the phone and roll to be changed
+
+5. DELETE -> to delete a resource from server
+          -> no msg body
+          -> no query params, only path params to send the id of the resource to be deleted
+
+--------------------------- HTTP Response Codes ------------------------------
+
+if success :
+    POST -> should ideally show 201 but most used is 200
+    GET -> 200
+    PUT -> 200
+    DELETE -> 200 or 204 (204 since it has no reponse msg and emptied the data)
+
+if failure :
+    if client-initiated : 4xx  -> eg 404 page not found
+    if server-initiated : 5xx -> egg 500 internal server error
+
+
