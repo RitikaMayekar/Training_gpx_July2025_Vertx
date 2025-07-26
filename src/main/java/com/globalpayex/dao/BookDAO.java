@@ -19,15 +19,12 @@ public class BookDAO {
     }
 
 
-//    public Future<List<JsonObject>> getBooks(JsonObject queryParams, JsonObject projection) {
-//
-//        var sort = new JsonObject().put("author",1);
-//
-//        return this.mongoClient.findWithOptions(
-//                COLLECTION_NAME,
-//                queryParams,
-//                new FindOptions().setFields(projection),
-//                new FindOptions().setSort()
-//        );
-//    }
+    public Future<List<JsonObject>> getBooks(JsonObject queryParams, JsonObject projection, JsonObject SortOrder) {
+
+        return this.mongoClient.findWithOptions(
+                COLLECTION_NAME,
+                queryParams,
+                new FindOptions().setFields(projection).setSort(SortOrder)
+        );
+    }
 }

@@ -31,12 +31,12 @@ public class BooksRoute {
         booksService = new BooksService(new BookDAO(vertx,config));
 
 
-//        router.get("/books")
-//                .handler(BooksRoute::displayBooksDetails);
+        router.get("/books")
+                .handler(BooksRoute::displayBooksDetails);
 
 //        router.get("/books/:id")
 //                .handler(BooksRoute::displaySpecificBooksDetails);
-
+//
 //        router.post("/books")
 //                .handler(BooksRoute::addNewBook);
 
@@ -44,32 +44,37 @@ public class BooksRoute {
 
     }
 
-//    private static void displayBooksDetails(RoutingContext routingContext) {
-//
-//        var queryParams = routingContext.queryParams().get("price");
-//
-//
-//        var displayBooksFuture = booksService.getAllBookDetails(new JsonObject().put("price",queryParams));
-//
-//        displayBooksFuture.onSuccess(
-//                booksObj -> {
-//                    routingContext
-//                            .response()
-//                            .putHeader("content-type","application/json")
-//                            .end(new JsonArray(booksObj).encode());
-//                }
-//        );
-//
-//        displayBooksFuture.onFailure(
-//                err -> {
-//                    routingContext.response()
-//                            .setStatusCode(400)
-//                            .end(err.getMessage());
-//                }
-//        );
-//
-//
-//    }
+    private static void displayBooksDetails(RoutingContext routingContext) {
+
+        var queryParamObj = new JsonObject();
+        var queryprice = routingContext.queryParam("price");
+
+        if(!queryprice.isEmpty()){
+            queryParamObj.put("book_details.price",new JsonObject().put("$gte",queryprice.get(0)));
+
+        }
+
+        var displayBooksFuture = booksService.getAllBookDetails(queryParamObj);
+
+        displayBooksFuture.onSuccess(
+                booksObj -> {
+                    routingContext
+                            .response()
+                            .putHeader("content-type","application/json")
+                            .end(new JsonArray(booksObj).encode());
+                }
+        );
+
+        displayBooksFuture.onFailure(
+                err -> {
+                    routingContext.response()
+                            .setStatusCode(400)
+                            .end(err.getMessage());
+                }
+        );
+
+
+    }
 
     //    private static final ArrayList<Book> books = new ArrayList<>(
 //            Arrays.asList(
