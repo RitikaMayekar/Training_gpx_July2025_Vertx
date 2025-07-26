@@ -21,8 +21,8 @@ public class StatisticsVerticle extends AbstractVerticle {
         var studentService = new StudentsService(new StudentDAO(vertx,config()));
 
 
-        vertx.eventBus().<JsonObject>consumer("new.student",mesage->{
-            var newStudent = mesage.body();
+        vertx.eventBus().<JsonObject>consumer("new.student",message->{
+            var newStudent = message.body();
             logger.info("new student {}",newStudent.getString("_id"));
 
             var studentsFuture = studentService.getAllStudents(new JsonObject());
@@ -32,7 +32,7 @@ public class StatisticsVerticle extends AbstractVerticle {
                                 studentJson->studentJson.getString("gender"),
                                 Collectors.counting()
                         ));
-                logger.info("Student stats as of now {}",studentSuccessObj);
+                logger.info("Student stats as of now {}",groupedData);
 
             });
             studentsFuture.onFailure(err->{
